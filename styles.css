@@ -1,0 +1,411 @@
+/* --- Variables Globales y Fuentes --- */
+:root {
+  --font-primary: 'Press Start 2P', 'Courier New', monospace;
+  --color-bg: #000000;
+
+  /* --- Paleta Base --- */
+  --color-cyan:   #00ffff; /* Nivel 0 */
+  --color-green:  #00ff00; /* Nivel 1 */
+  --color-blue:   #0077ff; /* Nivel 2 */
+  --color-violet: #8A2BE2; /* Nivel 3 - BlueViolet */
+  --color-yellow: #ffff00; /* Nivel 4 - 'amarilla' */
+  --color-white:  #ffffff; /* Nivel 5 - 'blanca' */
+  --color-red:    #ff0000; /* Obstáculos / Peligro */
+
+  /* --- Sombras Base --- */
+  --color-shadow-cyan:   rgba(0, 255, 255, 0.7);
+  --color-shadow-cyan-inset: rgba(0, 255, 255, 0.5);
+  --color-shadow-green:  rgba(0, 255, 0, 0.7);
+  --color-shadow-green-inset: rgba(0, 255, 0, 0.5);
+  --color-shadow-blue:   rgba(0, 119, 255, 0.7);
+  --color-shadow-blue-inset: rgba(0, 119, 255, 0.5);
+  --color-shadow-violet: rgba(138, 43, 226, 0.7);
+  --color-shadow-violet-inset: rgba(138, 43, 226, 0.5);
+  --color-shadow-yellow: rgba(255, 255, 0, 0.7);
+  --color-shadow-yellow-inset: rgba(255, 255, 0, 0.5);
+  --color-shadow-white:  rgba(255, 255, 255, 0.7);
+  --color-shadow-white-inset: rgba(255, 255, 255, 0.5);
+  --color-shadow-red:    rgba(255, 0, 0, 0.7);
+  --color-shadow-red-inset: rgba(255, 0, 0, 0.5);
+
+  /* --- Variables de Tema DINÁMICAS (Inicial = Nivel 0) --- */
+  /* Estas serán sobrescritas por las clases .level-X */
+  --color-theme-primary: var(--color-cyan);
+  --color-theme-shadow:  var(--color-shadow-cyan);
+  --color-theme-shadow-inset: var(--color-shadow-cyan-inset);
+  --color-grid:          rgba(0, 255, 255, 0.08);
+
+  /* --- Asignación a Elementos UI --- */
+  /* Usan las variables de tema dinámicas */
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  /* Otras variables que podrían cambiar con el tema */
+  --color-screen-title:  var(--color-theme-primary);
+  /* --color-ui-border:     var(--color-theme-primary); /* Decide si la UI cambia color */
+
+  /* --- Colores Específicos Estáticos --- */
+  --color-player-bg:     transparent;
+  --color-player-powered-border: var(--color-yellow); /* Para efecto .powered si se usa */
+  --color-player-powered-shadow: var(--color-yellow);
+  --color-obstacle-border: var(--color-red);
+  --color-obstacle-bg:     rgba(255, 0, 0, 0.3);
+  --color-obstacle-shadow: var(--color-red);
+  --color-coin-green:    var(--color-green);
+  --color-coin-blue:     var(--color-blue);
+  --color-coin-violet:   var(--color-violet);
+  --color-coin-amarilla: var(--color-yellow); /* Nombre coincide con COIN_TYPES.YELLOW */
+  --color-coin-blanca:   var(--color-white);
+  --color-coin-red:      var(--color-red);     /* Para futura moneda roja? */
+  --color-text-light:    #ffffff;
+  --color-text-medium:   #dddddd;
+  --color-text-dark:     #cccccc;
+  --color-text-darker:   #000000;
+  --color-text-placeholder: #00aaaa;
+  --color-ui-bg:         rgba(0, 0, 0, 0.6);
+  --color-ui-border:     var(--color-text-light); /* Borde UI por defecto blanco */
+  --color-screen-bg:     rgba(0, 0, 0, 0.9);
+  --color-button-text:   var(--color-green);
+  --color-button-border: var(--color-green);
+  --color-button-bg:     var(--color-bg);
+  --color-button-hover-text: var(--color-text-darker);
+  --color-button-hover-bg: var(--color-green);
+  --color-input-border:  var(--color-cyan);
+  --color-input-bg:      var(--color-bg);
+  --color-input-text:    var(--color-cyan);
+  --color-link:          var(--color-cyan);
+  --color-modal-bg:      #0a0a0a;
+  --color-modal-border:  var(--color-cyan);
+  --color-modal-shadow:  var(--color-shadow-cyan);
+  --color-terms-bg:      rgba(0, 0, 0, 0.3);
+  --color-terms-border:  #333;
+  --color-floating-plus: var(--color-green);
+  --color-floating-minus: var(--color-red);
+  --color-ranking-bg:    rgba(10, 10, 10, 0.85);
+  --color-ranking-border: #444;
+  --color-ranking-header-bg: #1a1a1a;
+  --color-ranking-header-text: var(--color-cyan);
+  --color-ranking-row-alt-bg: rgba(30, 30, 30, 0.7);
+  --color-ranking-row-hover-bg: rgba(0, 255, 255, 0.1);
+  --color-hit-border:    var(--color-red);
+  --color-hit-shadow:    var(--color-shadow-red);
+  --color-hit-shadow-inset: var(--color-shadow-red-inset);
+  --color-error:         var(--color-red);
+}
+
+/* --- Estilos Base y Contenedor --- */
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; background: var(--color-bg); font-family: var(--font-primary); }
+#gameContainer {
+  width: 100%; height: 100%;
+  max-width: 1600px; max-height: 800px;
+  aspect-ratio: 2 / 1; position: relative; overflow: hidden;
+  background-color: var(--color-bg);
+  background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* Usar variables de tema dinámicas */
+  border: 3px solid var(--color-container-border);
+  box-shadow: 0 0 15px var(--color-container-shadow),
+              0 0 5px var(--color-container-shadow-inset) inset;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background-image 0.4s ease; /* Transición más suave */
+  box-sizing: border-box;
+}
+
+/* ======================================================== */
+/* ---          PALETAS VISUALES POR NIVEL              --- */
+/* Sobrescriben las variables de tema --color-theme-* --- */
+/* y también las variables de elemento --color-...-* --- */
+/* ======================================================== */
+
+/* --- Nivel 0: Cian (Base) --- */
+.level-0 {
+  --color-theme-primary: var(--color-cyan);
+  --color-theme-shadow:  var(--color-shadow-cyan);
+  --color-theme-shadow-inset: var(--color-shadow-cyan-inset);
+  --color-grid:          rgba(0, 255, 255, 0.08);
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+}
+
+/* --- Nivel 1: Verde --- */
+.level-1 {
+  --color-theme-primary: var(--color-green);
+  --color-theme-shadow:  var(--color-shadow-green);
+  --color-theme-shadow-inset: var(--color-shadow-green-inset);
+  --color-grid:          rgba(0, 255, 0, 0.10);
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+}
+
+/* --- Nivel 2: Azul --- */
+.level-2 {
+  --color-theme-primary: var(--color-blue);
+  --color-theme-shadow:  var(--color-shadow-blue);
+  --color-theme-shadow-inset: var(--color-shadow-blue-inset);
+  --color-grid:          rgba(0, 119, 255, 0.10);
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+}
+
+/* --- Nivel 3: Violeta --- */
+.level-3 {
+  --color-theme-primary: var(--color-violet);
+  --color-theme-shadow:  var(--color-shadow-violet);
+  --color-theme-shadow-inset: var(--color-shadow-violet-inset);
+  --color-grid:          rgba(138, 43, 226, 0.10);
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+}
+
+/* --- Nivel 4: Amarillo --- */
+.level-4 {
+  --color-theme-primary: var(--color-yellow);
+  --color-theme-shadow:  var(--color-shadow-yellow);
+  --color-theme-shadow-inset: var(--color-shadow-yellow-inset);
+  --color-grid:          rgba(255, 255, 0, 0.12); /* Más opaco */
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+}
+
+/* --- Nivel 5: Blanco --- */
+.level-5 {
+  --color-theme-primary: var(--color-white);
+  --color-theme-shadow:  var(--color-shadow-white);
+  --color-theme-shadow-inset: var(--color-shadow-white-inset);
+  --color-grid:          rgba(255, 255, 255, 0.15); /* Más opaco */
+  /* Aplicar a elementos */
+  --color-container-border: var(--color-theme-primary);
+  --color-container-shadow: var(--color-theme-shadow);
+  --color-container-shadow-inset: var(--color-theme-shadow-inset);
+  --color-player-border: var(--color-theme-primary);
+  --color-player-shadow: var(--color-theme-primary);
+  --color-screen-title:  var(--color-theme-primary);
+  /* Quizás cambiar borde de UI a negro/gris oscuro para contraste */
+  /* --color-ui-border:     var(--color-text-darker); */
+}
+
+/* ======================================================== */
+/* --- Elementos del Juego (Aplicando Variables de Tema) ---*/
+/* ======================================================== */
+
+#player {
+  width: 8.75%; height: 17.5%;
+  background: var(--color-player-bg);
+  /* Usa las variables dinámicas */
+  border: 4px solid var(--color-player-border);
+  box-shadow: 0 0 10px var(--color-player-shadow),
+              0 0 20px var(--color-player-shadow) inset;
+  position: absolute; bottom: 0; left: 6.25%;
+  transition: transform 0.1s, border-color 0.4s ease, box-shadow 0.4s ease, bottom 0s; /* Transición color más suave */
+  z-index: 5; box-sizing: border-box;
+}
+#player.powered { /* Usado por lógica antigua de doble salto, revisar si se mantiene */
+  border-color: var(--color-player-powered-border);
+  box-shadow: 0 0 25px var(--color-player-powered-shadow), 0 0 35px var(--color-player-powered-shadow) inset, 0 0 10px var(--color-player-shadow);
+}
+#player.jumping { /* Sombra base del nivel + brillo extra */
+  box-shadow: 0 0 10px var(--color-player-shadow),
+              0 0 20px var(--color-player-shadow) inset,
+              0 0 15px var(--color-player-shadow), /* Brillo extra */
+              0 0 5px var(--color-text-light);
+}
+#player.collected { transform: scale(1.1); }
+
+/* --- Obstáculos (Sin cambios de color por nivel) --- */
+/* Base */
+.obstacle { width: 3.875%; height: 7.75%; background: var(--color-obstacle-bg); border: 4px solid var(--color-obstacle-border); box-shadow: 0 0 8px var(--color-obstacle-shadow), 0 0 15px var(--color-obstacle-shadow) inset; position: absolute; bottom: 0; z-index: 4; box-sizing: border-box; }
+.obstacle.large { width: 4.625%; height: 9.25%; }
+/* Formas Tetris */
+.obstacle.square { /* Ya cubierto por .obstacle base */ }
+.obstacle.triangle { width: 5%; height: 10%; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); background: var(--color-obstacle-bg); border: 4px solid var(--color-obstacle-border); box-shadow: 0 0 8px var(--color-obstacle-shadow), 0 0 15px var(--color-obstacle-shadow) inset; position: absolute; bottom: 0; z-index: 4; box-sizing: border-box; border-width: 4px; border-style: solid; border-color: var(--color-obstacle-border); }
+.obstacle.cube { border-color: #8000ff; background: rgba(128,0,255,0.3); box-shadow: 0 0 8px #8000ff, 0 0 15px #8000ff inset; }
+.obstacle.line { width: 3%; height: 14%; border-color: #ff7b00; background: rgba(255,123,0,0.3); box-shadow: 0 0 8px #ff7b00, 0 0 15px #ff7b00 inset; }
+.obstacle.zeta { width: 6%; height: 7.75%; background: rgba(255,0,128,0.3); border: 4px solid #ff0080; box-shadow: 0 0 8px #ff0080, 0 0 15px #ff0080 inset; clip-path: polygon(0 0, 75% 0, 75% 50%, 100% 50%, 100% 100%, 25% 100%, 25% 50%, 0 50%); }
+.obstacle.lshape { width: 6%; height: 7.75%; background: rgba(123,77,0,0.3); border: 4px solid #7b4d00; box-shadow: 0 0 8px #7b4d00, 0 0 15px #7b4d00 inset; clip-path: polygon(0 0, 50% 0, 50% 75%, 100% 75%, 100% 100%, 0 100%); }
+
+/* --- Monedas --- */
+.coin { width: 3.125%; height: 6.25%; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75em; color: var(--color-text-darker); z-index: 4; border: 2px solid rgba(0, 0, 0, 0.5); box-sizing: border-box; }
+/* Estilos específicos por tipo */
+.coin.green { background: var(--color-coin-green); box-shadow: 0 0 12px var(--color-coin-green), 0 0 5px var(--color-text-light) inset; }
+.coin.blue { background: var(--color-coin-blue); box-shadow: 0 0 12px var(--color-coin-blue), 0 0 5px var(--color-text-light) inset; }
+/* CLASE RENOMBRADA */
+.coin.amarilla { background: var(--color-coin-amarilla); box-shadow: 0 0 12px var(--color-coin-amarilla), 0 0 5px var(--color-text-light) inset; /* animation: pulse 0.5s infinite alternate; */ /* Quitar pulso? O dejarlo? */ }
+/* ESTILOS NUEVOS */
+.coin.violeta { background: var(--color-coin-violet); box-shadow: 0 0 12px var(--color-coin-violet), 0 0 5px var(--color-text-light) inset; }
+.coin.blanca { background: var(--color-coin-blanca); box-shadow: 0 0 12px var(--color-coin-blanca), 0 0 8px var(--color-shadow-cyan) inset; color: #333; }
+/* Mantenemos la animación pulse por si la queremos reutilizar */
+@keyframes pulse { from { transform: scale(1); box-shadow: 0 0 12px currentColor, 0 0 5px var(--color-text-light) inset; } to { transform: scale(1.1); box-shadow: 0 0 20px currentColor, 0 0 10px var(--color-text-light) inset; } }
+
+/* --- Interfaz de Usuario (Score, Timer, Combo) --- */
+#score, #timer, #combo {
+  position: absolute; top: 2.5%;
+  background: var(--color-ui-bg);
+  padding: 1.25% 2.5%;
+  border: 2px solid var(--color-ui-border); /* Borde UI no cambia con nivel por defecto */
+  font-size: clamp(14px, 2.5vmin, 24px);
+  color: var(--color-text-light); font-weight: bold; border-radius: 8px;
+  z-index: 10; min-width: 120px; text-align: center;
+  text-shadow: 0 0 5px var(--color-text-light), 0 0 10px rgba(255, 255, 255, 0.5);
+  box-sizing: border-box; transition: border-color 0.4s ease; /* Transición si cambiamos --color-ui-border */
+}
+#score { right: 1.25%; } #timer { left: 1.25%; } #combo { left: 50%; transform: translateX(-50%); min-width: 150px; }
+
+/* --- Pantallas, Formularios, Modal, Ranking, Texto Flotante, Efectos, Responsividad --- */
+/* (Se mantiene el resto del CSS que proporcionaste, asumiendo que está bien) */
+/* ... (pega aquí el resto de tu CSS desde .screen hasta el final, incluyendo media queries) ... */
+.screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-screen-bg); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; z-index: 20; text-align: center; padding: 2.5% 3%; box-sizing: border-box; color: var(--color-text-light); }
+.screen--hidden { display: none; }
+.screen h1 { font-size: clamp(24px, 4.5vmin, 48px); margin-bottom: 3.75%; color: var(--color-screen-title); text-shadow: 0 0 8px var(--color-screen-title), 0 0 15px var(--color-theme-shadow); /* Usar sombra de tema */ transition: color 0.3s ease, text-shadow 0.3s ease; }
+.screen p { font-size: clamp(12px, 1.75vmin, 18px); margin-bottom: 3.125%; line-height: 1.8; max-width: 60%; color: var(--color-text-medium); text-shadow: 0 0 3px rgba(255, 255, 255, 0.5); }
+.instruction-color--red { color: var(--color-red); font-weight: bold; text-shadow: 0 0 5px var(--color-red); }
+.instruction-color--green { color: var(--color-green); font-weight: bold; text-shadow: 0 0 5px var(--color-green); }
+.instruction-color--blue { color: var(--color-blue); font-weight: bold; text-shadow: 0 0 5px var(--color-blue); }
+.instruction-color--yellow { color: var(--color-yellow); font-weight: bold; text-shadow: 0 0 5px var(--color-yellow); } /* Podría necesitar ajuste para violeta/blanco */
+.screen button { padding: 1.5% 3%; font-size: clamp(14px, 2vmin, 22px); background: var(--color-button-bg); color: var(--color-button-text); border: 3px solid var(--color-button-border); box-shadow: 0 0 10px var(--color-button-border), 0 0 5px var(--color-button-border) inset; border-radius: 8px; cursor: pointer; margin-top: 1.875%; transition: all 0.3s ease; font-weight: bold; font-family: var(--font-primary); min-width: 150px; }
+.screen button:not(.welcome-pulse):hover { background: var(--color-button-hover-bg); color: var(--color-button-hover-text); box-shadow: 0 0 15px var(--color-button-border), 0 0 25px var(--color-button-border), 0 0 10px var(--color-text-light) inset; }
+.screen button:active { transform: scale(0.95); box-shadow: 0 0 5px var(--color-button-border), 0 0 2px var(--color-button-border) inset; }
+.form-group { margin-bottom: 1.875%; width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; }
+.visually-hidden { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+.screen input[type="text"], .screen input[type="email"] { font-size: clamp(12px, 1.75vmin, 18px); padding: 10px 12px; border: 2px solid var(--color-input-border); background-color: var(--color-input-bg); color: var(--color-input-text); border-radius: 5px; width: 100%; text-align: center; box-shadow: 0 0 5px var(--color-input-border) inset; font-family: var(--font-primary); box-sizing: border-box; margin-top: 4px; }
+.screen input[readonly] { background-color: #222; color: #888; cursor: not-allowed; box-shadow: none; }
+.screen input::placeholder { color: var(--color-text-placeholder); opacity: 0.8; font-size: clamp(10px, 1.25vmin, 14px); }
+.checkbox-container { display: flex; align-items: center; justify-content: center; margin: 1.875% 0; width: 100%; max-width: none; gap: 10px; }
+.checkbox-container input[type="checkbox"] { transform: scale(1.2); cursor: pointer; accent-color: var(--color-link); flex-shrink: 0; }
+.checkbox-container label { font-size: clamp(11px, 1.5vmin, 16px); cursor: pointer; color: var(--color-text-medium); line-height: 1.3; }
+.checkbox-container a { color: var(--color-link); text-decoration: none; transition: all 0.2s; }
+.checkbox-container a:hover { text-shadow: 0 0 8px var(--color-link); text-decoration: underline; }
+.modal { display: none; position: fixed; z-index: 30; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.8); animation: fadeIn 0.3s; }
+.modal-content { position: relative; background-color: var(--color-modal-bg); margin: 5% auto; padding: 2.5%; border: 2px solid var(--color-modal-border); box-shadow: 0 0 15px var(--color-modal-shadow); width: 80%; max-width: 800px; max-height: 80vh; border-radius: 8px; animation: modalSlideIn 0.4s; color: var(--color-text-medium); display: flex; flex-direction: column; box-sizing: border-box; }
+@keyframes modalSlideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.close-btn { position: absolute; top: 10px; right: 15px; color: var(--color-link); font-size: clamp(20px, 3.5vmin, 30px); font-weight: bold; cursor: pointer; transition: all 0.2s; line-height: 1; z-index: 1; }
+.close-btn:hover { color: var(--color-text-light); text-shadow: 0 0 10px var(--color-link); }
+.modal-content h2 { color: var(--color-link); text-align: center; margin-top: 0; margin-bottom: 2.5%; font-size: clamp(18px, 3vmin, 32px); text-shadow: 0 0 5px var(--color-link); flex-shrink: 0; }
+.modal-content h3 { color: var(--color-link); margin-top: 1.25em; margin-bottom: 0.6em; font-size: clamp(14px, 2vmin, 20px); }
+.terms-content { flex-grow: 1; overflow-y: auto; padding: 15px 20px; margin-bottom: 2.5%; border: 1px solid var(--color-terms-border); background-color: var(--color-terms-bg); border-radius: 4px; }
+.terms-content p { color: var(--color-text-dark); font-size: clamp(11px, 1.5vmin, 16px); line-height: 1.7; margin-bottom: 1em; }
+.terms-content p:last-child { margin-bottom: 0; }
+#acceptTermsBtn { display: block; margin: 0 auto; padding: 10px 20px; background: var(--color-button-bg); color: var(--color-button-text); border: 2px solid var(--color-button-border); border-radius: 5px; font-size: clamp(13px, 1.75vmin, 18px); cursor: pointer; transition: all 0.3s; font-family: var(--font-primary); flex-shrink: 0; }
+#acceptTermsBtn:hover { background: var(--color-button-hover-bg); color: var(--color-button-hover-text); box-shadow: 0 0 10px var(--color-button-border); }
+.floating-text { position: absolute; font-size: clamp(16px, 3vmin, 28px); font-weight: bold; animation: float 1.2s forwards ease-out; z-index: 99; pointer-events: none; white-space: nowrap; }
+@keyframes float { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-80px) scale(0.8); opacity: 0; } }
+.plus { color: var(--color-floating-plus); text-shadow: 0 0 5px var(--color-floating-plus), 0 0 8px var(--color-text-light); }
+.minus { color: var(--color-floating-minus); text-shadow: 0 0 5px var(--color-floating-minus), 0 0 8px var(--color-text-light); }
+#rankingDisplay h1 {}
+#rankingDisplay #finalScoreText { color: var(--color-text-light); font-size: clamp(14px, 2vmin, 20px); margin-bottom: 1.5%; }
+#ranking { margin-top: 2.5%; font-size: clamp(12px, 1.75vmin, 18px); max-height: 43.75%; overflow-y: auto; width: 80%; max-width: 500px; border: 1px solid var(--color-ranking-border); padding: 1.25%; background-color: var(--color-ranking-bg); border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1) inset; color: var(--color-text-dark); box-sizing: border-box; }
+#ranking h2 { font-size: clamp(16px, 2.25vmin, 24px); margin: 0 0 1.25% 0; padding: 5px 0; text-align: center; color: var(--color-text-light); text-shadow: 0 0 5px var(--color-text-light); position: sticky; top: -10px; background: var(--color-ranking-bg); z-index: 2; }
+#ranking table { width: 100%; border-collapse: collapse; }
+#ranking th, #ranking td { border: 1px solid var(--color-terms-border); padding: 8px 10px; text-align: left; font-size: clamp(11px, 1.5vmin, 16px); white-space: nowrap; }
+#ranking th:first-child, #ranking td:first-child { text-align: center; width: 10%; }
+#ranking th:nth-child(2), #ranking td:nth-child(2) { width: 65%; white-space: normal; word-break: break-word; }
+#ranking th:last-child, #ranking td:last-child { text-align: right; width: 25%; }
+#ranking th { background-color: var(--color-ranking-header-bg); color: var(--color-ranking-header-text); text-shadow: 0 0 4px var(--color-ranking-header-text); position: sticky; top: calc(clamp(16px, 2.25vmin, 24px) + 10px - 10px); z-index: 3; }
+#ranking tr:nth-child(even) td { background-color: var(--color-ranking-row-alt-bg); }
+#ranking tr:hover td { background-color: var(--color-ranking-row-hover-bg); color: var(--color-text-light); }
+#ranking p { text-align: center; padding: 10px; font-size: clamp(12px, 1.6vmin, 17px); color: var(--color-text-medium); }
+@keyframes shake { 0% { transform: translate(0, 0); } 25% { transform: translate(-15px, 0); } 50% { transform: translate(15px, 0); } 75% { transform: translate(-15px, 0); } 100% { transform: translate(0, 0); } }
+.shake { animation: shake 0.3s; }
+#gameContainer.hit { border-color: var(--color-hit-border) !important; box-shadow: 0 0 15px var(--color-hit-shadow), 0 0 5px var(--color-hit-shadow-inset) inset; }
+#orientation-message { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-screen-bg); color: var(--color-screen-title); display: flex; justify-content: center; align-items: center; text-align: center; z-index: 9999; padding: 20px; box-sizing: border-box; }
+#orientation-message.screen--hidden { display: none; }
+#orientation-message div { display: flex; flex-direction: column; align-items: center; }
+#orientation-message p { color: var(--color-text-light); font-size: clamp(16px, 5vw, 30px); margin-bottom: 20px; max-width: 90%; line-height: 1.4; }
+.rotate-icon { font-size: clamp(40px, 10vw, 80px); animation: spin 2s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+#welcomeScreen { background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15), rgba(0, 0, 0, 0.95)), linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px); background-size: cover, 40px 40px, 40px 40px; background-position: center center, center center, center center; justify-content: space-evenly; padding-top: 6vh; padding-bottom: 2vh; }
+.welcome-header { text-align: center; margin-bottom: 4vh; flex-shrink: 0; }
+.welcome-header.welcome-fade-in { animation-delay: 0.2s; }
+.welcome-title { font-size: clamp(48px, 12vmin, 95px); line-height: normal; margin: 0; padding: 0; white-space: nowrap; display: inline-block; &.welcome-zoom-in { animation-delay: 0.2s; } }
+.welcome-title .title-cyan { color: var(--color-cyan); text-shadow: 0 0 4px var(--color-cyan), 0 0 8px var(--color-shadow-cyan); animation: titleGlowCyan 2.5s infinite alternate ease-in-out; }
+.welcome-title .title-red { color: var(--color-red); text-shadow: 0 0 4px var(--color-red), 0 0 8px var(--color-shadow-red); animation: titleGlowRed 2.5s infinite alternate ease-in-out; }
+@keyframes titleGlowCyan { from { text-shadow: 0 0 4px var(--color-cyan), 0 0 8px var(--color-shadow-cyan), 0 0 12px transparent; } to { text-shadow: 0 0 8px var(--color-cyan), 0 0 16px var(--color-shadow-cyan), 0 0 24px var(--color-shadow-cyan); } }
+@keyframes titleGlowRed { from { text-shadow: 0 0 4px var(--color-red), 0 0 8px var(--color-shadow-red), 0 0 12px transparent; } to { text-shadow: 0 0 8px var(--color-red), 0 0 16px var(--color-shadow-red), 0 0 24px var(--color-shadow-red); } }
+.welcome-content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px 20px; width: 100%; max-width: 600px; margin-bottom: 3vh; flex-shrink: 1; }
+.welcome-section { background-color: rgba(0, 0, 0, 0.65); border: 1px solid var(--color-cyan); padding: 12px; border-radius: 6px; box-shadow: 0 0 6px var(--color-shadow-cyan); box-sizing: border-box; text-align: left; }
+.welcome-section h2 { color: var(--color-yellow); font-size: clamp(10px, 1.7vmin, 14px); text-shadow: 0 0 5px var(--color-yellow); margin-top: 0; margin-bottom: 6px; text-align: center; }
+.welcome-section p { font-size: clamp(9px, 1.4vmin, 12px); color: var(--color-text-medium); line-height: 1.35; text-shadow: none; margin-bottom: 0; max-width: none; }
+.welcome-section.welcome-slide-up:nth-of-type(1) { animation-delay: 0.5s; }
+.welcome-section.welcome-slide-up:nth-of-type(2) { animation-delay: 0.6s; }
+.welcome-section.welcome-slide-up:nth-of-type(3) { animation-delay: 0.7s; }
+.welcome-section.welcome-slide-up:nth-of-type(4) { animation-delay: 0.8s; }
+#welcomeStartBtn { font-size: clamp(16px, 2.5vmin, 22px); padding: 10px 30px; background-color: var(--color-button-bg); color: var(--color-green); border-color: var(--color-green); box-shadow: 0 0 12px var(--color-shadow-green), 0 0 8px var(--color-shadow-green-inset) inset; border-radius: 8px; margin-top: 0; flex-shrink: 0; transition: transform 0.2s ease-out, background-color 0.3s, color 0.3s, box-shadow 0.3s; }
+#welcomeStartBtn.welcome-fade-in { animation-delay: 1.0s; }
+#welcomeStartBtn.welcome-pulse { animation: fadeIn 1.2s ease-out 1.0s forwards, pulseStartButton 1.8s infinite ease-in-out 1.2s; position: relative; z-index: 1; font-size: clamp(18px, 3vmin, 28px); padding: 12px 40px; border-radius: 10px; box-shadow: 0 0 8px var(--color-shadow-green), 0 0 15px var(--color-shadow-green-inset) inset, 0 0 4px var(--color-green); }
+@keyframes pulseStartButton { 0% { transform: scale(1); box-shadow: 0 0 8px var(--color-shadow-green), 0 0 15px var(--color-shadow-green-inset) inset, 0 0 4px var(--color-green); } 50% { transform: scale(1.07); box-shadow: 0 0 14px var(--color-shadow-green), 0 0 25px var(--color-shadow-green-inset) inset, 0 0 8px var(--color-green); } 100% { transform: scale(1); box-shadow: 0 0 8px var(--color-shadow-green), 0 0 15px var(--color-shadow-green-inset) inset, 0 0 4px var(--color-green); } }
+#welcomeStartBtn:hover { background: var(--color-green); color: var(--color-text-darker); border-color: var(--color-green); box-shadow: 0 0 15px var(--color-shadow-green), 0 0 25px var(--color-shadow-green), 0 0 10px var(--color-text-light) inset; transform: scale(1.1); }
+#welcomeScreen.transition-out { opacity: 0; transition: opacity 0.5s ease-out; pointer-events: none; }
+@keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.welcome-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background-image: radial-gradient(circle at center, rgba(0, 255, 255, 0.05), transparent 70%), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px), linear-gradient(var(--color-grid) 1px, transparent 1px); background-size: cover, 40px 40px, 40px 40px; animation: pulseGrid 4s infinite alternate ease-in-out; pointer-events: none; opacity: 0.3; }
+@keyframes pulseGrid { from { opacity: 0.3; transform: scale(1); } to { opacity: 0.6; transform: scale(1.02); } }
+.welcome-animated { animation: fadeIn 1s ease-out; position: relative; }
+.welcome-zoom-in { animation-name: zoomIn; animation-duration: 1s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+.welcome-slide-up { animation-name: slideUp; animation-duration: 0.8s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+.welcome-fade-in { animation-name: fadeIn; animation-duration: 1.2s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+@media screen and (max-width: 1024px) { /*...*/ }
+@media screen and (max-width: 768px) { /*...*/ }
+@media screen and (max-height: 500px) and (orientation: landscape) { /*...*/ }
+@supports (-webkit-touch-callout: none) { body, html, #gameContainer { height: -webkit-fill-available; } }
+
+/* --- Power-Up HUD Placeholder (Add actual styles later) --- */
+#powerup-hud {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex; /* Or inline-flex */
+  gap: 10px;
+}
+
+.hud-icon {
+  /* Basic style for icons - replace with images or font icons */
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 1px solid white;
+  border-radius: 3px;
+  opacity: 0.3; /* Dimmed when not available */
+  transition: opacity 0.3s ease;
+}
+
+.hud-icon.available {
+  opacity: 1.0; /* Bright when available */
+  /* Add glow? */
+  box-shadow: 0 0 8px white;
+}
+
+#hud-dash-icon { background-color: var(--color-violet, purple); /* Placeholder color */ }
+#hud-dj-icon { background-color: var(--color-yellow, yellow); /* Placeholder color */ }
+#hud-blanco-icon { background-color: var(--color-white, white); /* Placeholder color */ }

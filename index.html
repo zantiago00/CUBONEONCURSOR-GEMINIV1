@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>CUBONEON ARENA | Salta y Esquiva</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="player"></div>
+        <div id="score">0</div>
+        <div id="timer">120.0</div> <div id="combo">Combo: 0</div>
+
+        <div id="welcomeScreen" class="screen welcome-animated">
+            <div class="welcome-background"></div> <div class="welcome-header welcome-fade-in">
+                <h1 class="welcome-title welcome-zoom-in welcome-title-glow">
+                    <span class="title-cyan">CUBONEON</span> <span class="title-red">ARENA</span>
+                </h1>
+            </div>
+            <div class="welcome-content">
+                <div class="welcome-section welcome-slide-up">
+                    <h2>Premio Semanal</h2>
+                    <p>Compite para ganar una transferencia de 10.000 (diez mil pesos colombianos) a nequi! La mayor puntuación semanal en el ranking será la ganadora.</p>
+                </div>
+                <div class="welcome-section welcome-slide-up">
+                    <h2>¿Cómo Participar?</h2>
+                    <p>Solo debes ingresar tu correo electrónico en la pantalla principal, aceptar los términos y condiciones y comenzar a competir con el resto de jugadores. Este es un juego experimental, pero... ¡el premio es real!</p>
+                </div>
+                <div class="welcome-section welcome-slide-up">
+                    <h2>Sistema Intentos</h2>
+                    <p>Tienes 3 intentos por email cada semana. Si no ganas esta semana, ¡puedes volver a intentarlo en la siguiente!</p>
+                </div>
+                <div class="welcome-section welcome-slide-up">
+                    <h2>Competencia Nacional</h2>
+                    <p>Abierto a participantes de Colombia. La competencia se rige por el horario de Colombia. GMT -5.</p>
+                </div>
+            </div>
+            <button id="welcomeStartBtn" class="welcome-pulse welcome-fade-in">¡COMENZAR!</button>
+        </div>
+
+        <div id="emailScreen" class="screen screen--hidden">
+             <h1>¡Bienvenido!</h1>
+             <p>Ingresa tu correo para comenzar</p>
+             <form id="emailForm">
+                 <div class="form-group">
+                     <label for="initialEmail" class="visually-hidden">Correo electrónico:</label>
+                     <input id="initialEmail" type="email" placeholder="Correo electrónico" required autocomplete="email">
+                     </div>
+                 <button type="submit">CONTINUAR</button>
+             </form>
+        </div>
+
+        <div id="registerScreen" class="screen screen--hidden">
+             <h1>¡Regístrate!</h1> <p>Regístrate para jugar y aparecer en el ranking</p>
+             <form id="registerForm">
+                 <div class="form-group">
+                     <label for="playerEmail" class="visually-hidden">Tu correo electrónico (no editable):</label>
+                     <input id="playerEmail" type="email" placeholder="Tu correo electrónico" required autocomplete="email" readonly>
+                 </div>
+                 <div class="form-group">
+                     <label for="playerName" class="visually-hidden">Tu nombre (Máximo 15 caracteres):</label>
+                     <input id="playerName" type="text" placeholder="Tu nombre (Max 15)" maxlength="15" required autocomplete="nickname">
+                 </div>
+                 <div class="form-group checkbox-container">
+                     <input type="checkbox" id="termsCheckbox" required>
+                     <label for="termsCheckbox">Acepto los <a href="#" id="openTermsBtn">términos y condiciones</a></label>
+                 </div>
+                 <button type="submit" id="registerButton">REGISTRARME</button> </form>
+        </div>
+
+        <div id="startScreen" class="screen screen--hidden">
+             <h1>¡A Jugar!</h1> <p>
+                 <b>Espacio</b> / <b>Toca Pantalla</b> para Saltar<br> Evita Obstáculos (<span class="instruction-color--red">-1s</span>)<br>
+                 Recoge Monedas:<br>
+                 <span class="instruction-color--green">Verde</span>: +1s |
+                 <span class="instruction-color--blue">Azul</span>: +2s & Vel. (Combo 3+) |
+                 <span class="instruction-color--yellow">Amarilla</span>: +5s, Vel. & Doble Salto (Combo 6+) </p>
+             <p class="mobile-instructions screen--hidden">
+                 <b>Toca la pantalla</b> para saltar y evitar obstáculos
+             </p>
+             <button id="startButton">¡JUGAR!</button>
+        </div>
+
+        <div id="rankingDisplay" class="screen screen--hidden">
+             <h1>¡Tiempo Agotado!</h1>
+             <p id="finalScoreText"></p> <div id="ranking"></div> <button id="restartButton">JUGAR DE NUEVO</button>
+        </div>
+
+        <div id="termsModal" class="modal" aria-hidden="true"> <div class="modal-content" role="dialog" aria-labelledby="termsModalTitle" aria-modal="true">
+                <span class="close-btn" title="Cerrar">&times;</span> <h2 id="termsModalTitle">Términos y Condiciones</h2>
+                <div class="terms-content">
+                    <p>Al utilizar este juego ("CUBONEON ARENA"), aceptas los siguientes términos y condiciones:</p>
+                    <h3>1. Uso del Juego</h3>
+                    <p>Este juego se proporciona "tal cual" para fines de entretenimiento y competencia amistosa con un premio semanal real descrito en la pantalla de bienvenida. No garantizamos disponibilidad continua ni ausencia de errores. El uso es bajo tu propio riesgo.</p>
+                    <h3>2. Información del Usuario</h3>
+                    <p>Para participar en el ranking semanal y ser elegible para el premio, se requiere un nombre de jugador y una dirección de correo electrónico válida. Tu correo se usará únicamente para contactarte si resultas ganador y para gestionar tu participación (ej. límite de intentos semanales). No compartiremos tu correo con terceros sin tu consentimiento explícito, excepto si es requerido por ley. Tu nombre de jugador será visible públicamente en el ranking.</p>
+                    <h3>3. Comportamiento y Ranking</h3>
+                     <p>No se permiten nombres de jugador ofensivos, inapropiados o que suplanten identidad. Nos reservamos el derecho de eliminar puntuaciones o descalificar jugadores que violen esta norma o intenten manipular el juego (hacks, bots, etc.). El ranking se basa en la puntuación obtenida dentro del tiempo límite. La puntuación más alta registrada al final de la semana (Domingo GMT-5) será la ganadora del premio. En caso de empate, se podrá considerar un criterio adicional (ej. fecha/hora del logro) o dividir el premio a discreción del organizador.</p>
+                    <h3>4. Premio</h3>
+                    <p>El premio semanal consiste en una transferencia de $10.000 COP (diez mil pesos colombianos) a una cuenta Nequi del ganador. El ganador será contactado vía email y deberá proporcionar los datos necesarios para la transferencia dentro de un plazo razonable. Si el ganador no responde o no cumple los requisitos, el premio puede declararse desierto o pasar al siguiente en el ranking.</p>
+                    <h3>5. Propiedad Intelectual</h3>
+                    <p>Todos los derechos del juego (código, gráficos básicos, concepto) pertenecen a sus creadores. No puedes copiar, modificar o redistribuir el juego sin permiso.</p>
+                    <h3>6. Modificaciones y Terminación</h3>
+                    <p>Nos reservamos el derecho de modificar estos términos, las reglas del juego, el premio o terminar la competencia en cualquier momento, notificando a través del mismo juego si es posible.</p>
+                    <h3>7. Limitación de Responsabilidad</h3>
+                    <p>No somos responsables por pérdidas de datos, fallos técnicos, o cualquier otro daño derivado del uso del juego.</p>
+                    <p><strong>Fecha de última actualización:</strong> 13 de Abril de 2025</p> </div>
+                <button id="acceptTermsBtn">Aceptar</button> </div>
+        </div>
+
+    </div> <div id="orientation-message" class="screen--hidden" role="status" aria-live="polite" aria-hidden="true">
+         <div>
+             <p>Por favor, gira tu dispositivo para jugar</p>
+             <div class="rotate-icon" aria-hidden="true">⟳</div>
+         </div>
+    </div>
+
+    <script src="main.js" type="module"></script>
+    </body>
+</html>
